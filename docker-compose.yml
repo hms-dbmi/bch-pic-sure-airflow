@@ -1,0 +1,114 @@
+version: "3.6"
+services: 
+  postgresql:
+    image: "bitnami/postgresql:latest"
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    env_file:
+      - ${ENV_FILE}      
+    environment:
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} 
+    networks:
+      - bch_network
+
+  redis:
+    image: "bitnami/redis:latest" 
+    container_name: redis
+    user: root
+    env_file:
+      - ${ENV_FILE}  
+    environment:
+      - ALLOW_EMPTY_PASSWORD=${ALLOW_EMPTY_PASSWORD} 
+    networks:
+      - bch_network
+
+  airflow-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile_airflow_worker 
+    container_name: airflow-worker
+    user: root
+    env_file:
+      - ${ENV_FILE} 
+    environment:
+      - AIRFLOW_FERNET_KEY=${AIRFLOW_FERNET_KEY}
+      - AIRFLOW_EXECUTOR=${AIRFLOW_EXECUTOR}
+      - AIRFLOW_DATABASE_NAME=${AIRFLOW_DATABASE_NAME}
+      - AIRFLOW_DATABASE_USERNAME=${AIRFLOW_DATABASE_USERNAME}
+      - AIRFLOW_DATABASE_PASSWORD=${AIRFLOW_DATABASE_PASSWORD}
+      - AIRFLOW_LOAD_EXAMPLES=${AIRFLOW_LOAD_EXAMPLES}
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=${AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION}
+      - AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG=${AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG}    
+    volumes:
+      - ${AIRFLOW_DAGS}:/opt/bitnami/airflow/dags
+      - ${AIRFLOW_DATA}:/opt/bitnami/airflow/airflow-data
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    networks:
+      - bch_network
+    depends_on:
+      - postgresql 
+
+  airflow-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile_airflow_scheduler 
+    container_name: airflow-scheduler  
+    user: root
+    env_file:
+      - ${ENV_FILE}    
+    environment:
+      - AIRFLOW_FERNET_KEY=${AIRFLOW_FERNET_KEY}
+      - AIRFLOW_EXECUTOR=${AIRFLOW_EXECUTOR}
+      - AIRFLOW_DATABASE_NAME=${AIRFLOW_DATABASE_NAME}
+      - AIRFLOW_DATABASE_USERNAME=${AIRFLOW_DATABASE_USERNAME}
+      - AIRFLOW_DATABASE_PASSWORD=${AIRFLOW_DATABASE_PASSWORD}
+      - AIRFLOW_LOAD_EXAMPLES=${AIRFLOW_LOAD_EXAMPLES}
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=${AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION}
+      - AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG=${AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG}    
+    volumes:
+      - ${AIRFLOW_DAGS}:/opt/bitnami/airflow/dags
+      - ${AIRFLOW_DATA}:/opt/bitnami/airflow/airflow-data
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    networks:
+      - bch_network
+
+  airflow:
+    build:
+      context: .
+      dockerfile: Dockerfile_airflow 
+    container_name: airflow
+    user: root
+    ports:
+      - "${AIRFLOW_WEB_PORT}:8080"
+    volumes:
+      - ${AIRFLOW_DAGS}:/opt/bitnami/airflow/dags
+      - ${AIRFLOW_DATA}:/opt/bitnami/airflow/airflow-data
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    env_file:
+      - ${ENV_FILE}      
+    environment:
+      - AIRFLOW_FERNET_KEY=${AIRFLOW_FERNET_KEY}
+      - AIRFLOW_EXECUTOR=${AIRFLOW_EXECUTOR}
+      - AIRFLOW_DATABASE_NAME=${AIRFLOW_DATABASE_NAME}
+      - AIRFLOW_DATABASE_USERNAME=${AIRFLOW_DATABASE_USERNAME}
+      - AIRFLOW_DATABASE_PASSWORD=${AIRFLOW_DATABASE_PASSWORD}
+      - AIRFLOW_PASSWORD=${AIRFLOW_PASSWORD}
+      - AIRFLOW_USERNAME=${AIRFLOW_USERNAME}
+      - AIRFLOW_EMAIL=${AIRFLOW_EMAIL}
+      - AIRFLOW_LOAD_EXAMPLES=${AIRFLOW_LOAD_EXAMPLES}
+      - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=${AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION}
+      - AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG=${AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG} 
+    networks:
+      - bch_network
+    depends_on:
+      - postgresql
+      - airflow-scheduler
+      - airflow-worker
+ 
+    
+networks:
+  bch_network:
+    external: true

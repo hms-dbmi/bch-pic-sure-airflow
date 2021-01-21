@@ -1,0 +1,5 @@
+FROM dbmi/airflow:dbmi-airflow
+MAINTAINER ANIL KUMAR DEGALA <anilkdegala@gmail.com>
+RUN pip install pandasql
+RUN mkdir /opt/bitnami/airflow/airflow-data/
+RUN chmod -R 777 /opt/bitnami/airflow/airflow-data/
