@@ -20,7 +20,7 @@ if [[ "$3" == "N" ]]; then
 	--discovery true  
 	
 	ls -altr 
-	cat $3
+	cat $2
 	
 elif [[ "$3" == "Y" ]]; then
 	echo "Skipping: Decrypting the file"  
