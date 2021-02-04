@@ -11,6 +11,7 @@ if [[ "$3" == "N" ]]; then
 	ls -altr 
 	cd /opt/bitnami/airflow/airflow-data/downloads
 	aws s3 cp  s3://$2/$1 . 
+	chmod -R 777 /opt/bitnami/airflow/airflow-data/downloads
 	ls -altr
 elif [[ "$3" == "Y" ]]; then
 	echo "Skipping: Download the file"  

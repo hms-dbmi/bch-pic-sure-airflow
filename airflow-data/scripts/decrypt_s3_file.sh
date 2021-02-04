@@ -16,10 +16,12 @@ if [[ "$3" == "N" ]]; then
 	--input $1    \
 	--encryption-context purpose=test  \
 	--metadata-output metadata \
-	--output $2
-	--discovery true 
+	--output $2 \
+	--discovery true  
 	
-	ls -altr
+	ls -altr 
+	cat $3
+	
 elif [[ "$3" == "Y" ]]; then
 	echo "Skipping: Decrypting the file"  
 fi 
