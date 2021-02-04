@@ -16,3 +16,4 @@ __pycache__
 *.csv
 *.dsv
 *.pyc
+logfile.log

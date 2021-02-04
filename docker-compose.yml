@@ -1,5 +1,14 @@
 version: "3.6"
 services: 
+  oracledb:
+    image: "oracleinanutshell/oracle-xe-11g" 
+    container_name: oracledb
+    env_file:
+      - ${ENV_FILE}          
+    ports:
+      - "49161:1521"
+    networks:
+      - bch_network
   postgresql:
     image: "bitnami/postgresql:latest"
     container_name: postgresql
