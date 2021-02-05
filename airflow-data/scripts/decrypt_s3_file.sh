@@ -10,10 +10,9 @@ if [[ "$3" == "N" ]]; then
 	_uid="$(id -u)"
 	ls -altr 
 	cd /opt/bitnami/airflow/airflow-data/downloads
-	aws s3 cp  s3://$2/$1 .  
 	
 	aws-encryption-cli --decrypt \
-	--input $1    \
+	--input $1".encrypted"    \
 	--encryption-context purpose=test  \
 	--metadata-output metadata \
 	--output $2 \

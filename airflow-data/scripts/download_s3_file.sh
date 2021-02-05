@@ -10,7 +10,7 @@ if [[ "$3" == "N" ]]; then
 	_uid="$(id -u)"
 	ls -altr 
 	cd /opt/bitnami/airflow/airflow-data/downloads
-	aws s3 cp  s3://$2/$1 . 
+	aws s3 cp  s3://$2/$1".encrypted" . 
 	chmod -R 777 /opt/bitnami/airflow/airflow-data/downloads
 	ls -altr
 elif [[ "$3" == "Y" ]]; then
