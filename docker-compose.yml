@@ -28,7 +28,7 @@ services:
   airflow-worker:
     build:
       context: .
-      dockerfile: Dockerfile_airflow_worker 
+      dockerfile: ./airflow-worker/Dockerfile
     container_name: airflow-worker
     user: root
     env_file:
@@ -54,7 +54,7 @@ services:
   airflow-scheduler:
     build:
       context: .
-      dockerfile: Dockerfile_airflow_scheduler 
+      dockerfile: ./airflow-scheduler/Dockerfile
     container_name: airflow-scheduler  
     user: root
     env_file:
@@ -78,7 +78,7 @@ services:
   airflow:
     build:
       context: .
-      dockerfile: Dockerfile_airflow 
+      dockerfile: ./airflow/Dockerfile 
     container_name: airflow
     user: root
     ports:
