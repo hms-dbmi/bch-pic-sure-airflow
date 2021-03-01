@@ -18,11 +18,10 @@ if [[ "$3" == "N" ]]; then
 	--output $2 \
 	--discovery true  
 	
-	ls -altr 
-	cat $2
+	ls -altr
 	
 elif [[ "$3" == "Y" ]]; then
 	echo "Skipping: Decrypting the file"  
 fi 
 
-echo "Decrypt S3 File End" 
+echo "Decrypt S3 File End"
