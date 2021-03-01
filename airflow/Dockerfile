@@ -1,4 +1,4 @@
-FROM dbmi/airflow:dbmi-airflow-oct2020
+FROM dbmi/airflow:dbmi-airflow-mar2021
 MAINTAINER ANIL KUMAR DEGALA <anilkdegala@gmail.com>
 RUN pip install pandasql
 RUN pip install fire
