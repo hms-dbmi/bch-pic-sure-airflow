@@ -2,10 +2,9 @@
   
 echo "Decrypt S3 File begin"
 echo $1 # file
-echo $2 # decrypted file name
-echo $3 # skip 
+echo $2 # skip 
 
-if [[ "$3" == "N" ]]; then
+if [[ "$2" == "N" ]]; then
 	_user="$(id -u -n)"
 	_uid="$(id -u)"
 	ls -altr 
@@ -15,12 +14,12 @@ if [[ "$3" == "N" ]]; then
 	--input $1".encrypted"    \
 	--encryption-context purpose=test  \
 	--metadata-output metadata \
-	--output $2 \
+	--output $1 \
 	--discovery true  
 	
 	ls -altr
 	
-elif [[ "$3" == "Y" ]]; then
+elif [[ "$2" == "Y" ]]; then
 	echo "Skipping: Decrypting the file"  
 fi 
 
