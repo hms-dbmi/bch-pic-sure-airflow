@@ -12,7 +12,7 @@ aws-encryption-cli --encrypt \
          --wrapping-keys key=$cmkArn \
          --encryption-context purpose=test \
          --commitment-policy require-encrypt-require-decrypt \
-         --metadata-output ~/metadata \
+         --metadata-output metadata \
          --output $2
 chmod 777 $2
 ls -lhrS
