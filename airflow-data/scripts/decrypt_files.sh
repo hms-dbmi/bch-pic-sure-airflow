@@ -10,13 +10,13 @@ do
     echo "$var"
     IFS=','
     read -a strarr <<< "$var" 
-    echo "Decrypting File: "${strarr[0]}" , Location: "${strarr[1]}
+    echo "Decrypting File: "${strarr[0]}" , Location: "${strarr[1]}", Final Name: "${strarr[2]}
 
 	aws-encryption-cli --decrypt \
-	--input ${strarr[0]}".encrypted"    \
+	--input ${strarr[0]}   \
 	--encryption-context purpose=test  \
 	--metadata-output metadata \
-	--output ${strarr[0]} \
+	--output ${strarr[2]} \
 	--discovery true 
 	    
     echo ""

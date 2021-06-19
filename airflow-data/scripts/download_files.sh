@@ -10,8 +10,8 @@ do
     echo "$var"
     IFS=','
     read -a strarr <<< "$var" 
-    echo "Downloading File: "${strarr[0]}" , Location: "${strarr[1]}
-    aws s3 cp  s3://${strarr[1]}".encrypted" ${strarr[0]}".encrypted" 
+    echo "Downloading File: "${strarr[0]}" , Location: "${strarr[1]}", Final Name: "${strarr[2]}
+    aws s3 cp  s3://${strarr[1]} ${strarr[0]}
     echo ""
     
 done
